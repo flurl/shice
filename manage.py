@@ -58,7 +58,7 @@ def do_upload():
 @app.route("/list_tagged")
 def list_tagged():
     files = glob.glob(f"{settings.TAGGED_PATH}/*.jpg")
-    files.sort(key=os.path.getmtime, reverse=True)
+    files.sort(reverse=True) 
     images = []
     for filename in files:
         with open(pathlib.Path(filename).with_suffix(".json")) as scores_file:
