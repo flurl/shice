@@ -45,9 +45,9 @@
                     {% for label, score in img['scores'].items() %}
                     <!-- <tr style="background-color: rgba(0, 255, 128, {{score}});"> -->
                     <tr>
-                        <td>{{label}}</td>
-                        <td style="background-color: hsl({{score * 300 + 100}}, 100%, 50%);">{{score}}</td>
-                        <td><a href="/tag?file={{ img['src'] }}&label={{ label }}">tag</a></td>
+                        <td class="tag">{{label}}</td>
+                        <td style="background-color: hsl({{score * 300 + 100}}, 100%, 50%);" class="score">{{score}}</td>
+                        <td><a href="/tag?file={{ img['src'] }}&label={{ label }}" class="image-tag-link">tag</a></td>
                     </tr>
                     {% endfor %}
                 </table>
