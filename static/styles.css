@@ -1,0 +1,159 @@
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+/*
+  2. Remove default margin
+*/
+* {
+  margin: 0;
+}
+/*
+  Typographic tweaks!
+  3. Add accessible line-height
+  4. Improve text rendering
+*/
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+/*
+  5. Improve media defaults
+*/
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+/*
+  6. Remove built-in form typography styles
+*/
+input, button, textarea, select {
+  font: inherit;
+}
+/*
+  7. Avoid text overflows
+*/
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+/*
+  8. Create a root stacking context
+*/
+#root, #__next {
+  isolation: isolate;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 1rem;
+}
+
+#header {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    padding: 1rem;
+    width: 100%;
+    z-index: 1000;
+}
+
+.images-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    container-type: inline-size;
+    container-name: images-container
+}
+
+.images-container .image-and-scores {
+    max-width: calc(33% - 1rem);
+    flex-shrink: 1;
+    position: relative;
+}
+
+
+@container images-container (width < 1200px) {
+    .images-container .image-and-scores {
+        max-width: calc(50% - 1rem);
+    }
+}
+
+
+@container images-container (width < 800px) {
+    .images-container .image-and-scores {
+        max-width: calc(100%);
+    }
+}
+
+.images-container .image-and-scores img {
+    width: 100%;
+    
+    &.prepared, &.deleted {
+        opacity: 0.5;
+    }
+}
+
+.single-image {
+    position: relative;
+}
+
+
+.image-and-scores:has(input.selection-checkbox:checked) .single-image img {
+    outline: 0.5rem solid blue;
+}
+
+.images-container .image-and-scores .single-image::after {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    font-size: 300%;
+    font-weight: bold;
+}
+
+.images-container .image-and-scores:has(img.prepared) .single-image::after {
+    content: "✔";
+    color: green;
+}
+
+.images-container .image-and-scores:has(img.deleted) .single-image::after {
+    content: "🗑";
+    color: red;
+}
+
+.image_overlay {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.5rem;
+    font-size: 200%;
+    font-weight: bold;
+    color: #f92;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    /*backdrop-filter: blur(2px);*/
+    
+    & a {
+        color: inherit;
+        text-decoration: none;
+    }
+    
+    & input[type=checkbox] {
+        float: right;
+        width: 2rem;
+        height: 2rem;
+    }
+    
+    & .image_overlay_actions {
+        display: none;
+    }
+}
+
+/* show the overlay action links, but only if the image was neither deleted nor prepared*/
+.image-and-scores:not(:has(img.deleted)):hover .image_overlay .image_overlay_actions,
+.image-and-scores:not(:has(img.prepared)):hover .image_overlay .image_overlay_actions {
+    display: block;
+}

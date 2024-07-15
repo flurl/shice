@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{app_name}} - list tagged</title>
+    <script src="{{ url_for('static',filename='scripts.js') }}" defer></script>
+
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles.css') }}">
+</head>
+
+<body>
+    
+    <h1>Tagged pictures</h1>
+    
+    <form method="POST">
+
+    <div id="header">
+        <a href="/prepare_training_data">Prepare training data</a> 
+        <button formaction="/delete">Delete selected</button>
+        {% for label in labels %}
+            <button formaction="tag?label={{ label }}"> Tag as {{ label }}</button>
+        {% endfor %}
+    </div>
+
+    <div class="images-container">
+        {% for img in images %}
+        <div class="image-and-scores">
+            <div class="single-image">
+                <img src="{{ img['src'] }}">
+            </div>
+            <div class="image_overlay">
+                <p class="image_overlay_tag">{{ img['tag'] }}</p>
+                <p class="image_overlay_actions"><input type="checkbox" name="file" value="{{ img['src'] }}" class="selection-checkbox"> <a href="/prepare_training_data?file={{ img['src'] }}" class="image_confirm_link">✔</a> <a class="image_delete_link" href="/delete?file={{ img['src'] }}">🗑</a></p>
+            </div>
+            <div class="scores">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="1000">{{ img['src'] }}</th>
+                        </tr>
+                    </thead>
+                    {% for label, score in img['scores'].items() %}
+                    <!-- <tr style="background-color: rgba(0, 255, 128, {{score}});"> -->
+                    <tr>
+                        <td>{{label}}</td>
+                        <td style="background-color: hsl({{score * 300 + 100}}, 100%, 50%);">{{score}}</td>
+                        <td><a href="/tag?file={{ img['src'] }}&label={{ label }}">tag</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    </form>
+
+</body>
+
+</html>
