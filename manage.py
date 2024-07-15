@@ -70,7 +70,7 @@ def list_tagged():
                 'images': images,
                 'labels': get_labels(),
               }
-    print(context)
+    
     return render_template("list_tagged.html", **context)
 
 
