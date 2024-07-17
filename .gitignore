@@ -166,3 +166,4 @@ tagged/
 training/
 tensorflow/
 arduino/local.ini
+secret.py
