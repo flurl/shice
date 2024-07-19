@@ -1,8 +1,8 @@
 # SHICE - Sophisticated Helper Identifying Cat Entities
 
-The problem: You have a bunch of cats and as usual one of them is sick. The vet wants a stool sample of that cat. But you don't know, which poop belongs to which cat.
+__The problem:__ You have a bunch of cats and as usual one of them is sick. The vet wants a stool sample of that cat. But you don't know, which poop belongs to which cat.
 
-The solution: SHICE
+__The solution:__ SHICE
 
 ## What is SHICE
 SHICE consists of cameras capturing images of the cats while using the litter boxes and sending those cameras to a server process where the cats are identified. After that a webhook is called for notification purpose.
@@ -27,6 +27,10 @@ On the server side everything that runs Python and TensorFlow lite should be fin
 Open the `arduino` folder in PlatformIO. Edit the platformio.ini to fit your needs. At least one environment is needed, but you can create multiple environments if you have more than one litter box. 
 The first time you flash the ESP you have to use USB. After that you should be able to use OTA updates by setting `upload_port` and `upload_protocol` in the corresponding environment section.
 
+Whenever the PIR sensor is triggered a new image will be captured and uploaded. Between consecutive images `timerInterval`ms will be waited. If you set the build flag `-D WEBHOOK="https://example.com/hook"` in platformio.ini this webhook will be called when an image is taken.
+
+One might use this e.g. to be notified as soon as possible when an event happened even before the recognition is done. Or if you have multiple satellites this is a way to check, whicht satellite triggered the event.
+
 ### Server
 ```bash
 git clone https://github.com/flurl/shice.git
@@ -36,8 +40,16 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Machine learning
-Use Microsoft's Custom Vision https://www.customvision.ai to train a model. Export it as TensorFlow lite and extract the zip file to the folder `tensorflow`
+You have to create a file named `secret.py`  with the following content:
+
+```python
+POST_PREDICTION_HOOK = "https://example.com/hook"
+```
+
+A POST request will be made to the hook's URL after the recognition has happend. The request has the parameter `label` where the parameters value is the tag returned from TensorFlow with the highest score.
+
+## Obtaininig an AI model
+You can use Microsoft's Custom Vision https://www.customvision.ai to train a model. Export it as TensorFlow lite and extract the zip file to the folder `tensorflow`.
 
 ## Running the server
 Activate the venv and then run
