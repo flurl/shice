@@ -1,0 +1,10 @@
+.git
+.gitignore
+kicad
+docs
+__pycache__
+arduino
+venv
+training
+captured_images
+tagged
