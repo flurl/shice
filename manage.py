@@ -19,6 +19,9 @@ from werkzeug.utils import secure_filename
 
 import settings
 
+# Number of days after which files will be deleted
+FILE_AGE_THRESHOLD_DAYS = 14
+
 app = Flask(__name__)
 
 
@@ -48,6 +51,23 @@ def do_upload():
     name = "{0}{1}".format(datetime.datetime.now().strftime("%Y%m%d_%H%M%S"), ext)
     if not os.path.exists(save_path):
         os.makedirs(save_path)
+        
+    # Delete files older than FILE_AGE_THRESHOLD_DAYS
+    current_time = datetime.datetime.now()
+    for filename in os.listdir(save_path):
+        file_path = os.path.join(save_path, filename)
+        
+        # Skip if it's a directory
+        if os.path.isdir(file_path):
+            continue
+        
+        # Get file's last modification time
+        file_mod_time = datetime.fromtimestamp(os.path.getmtime(file_path))
+        
+        # Delete if file is older than threshold
+        if (current_time - file_mod_time).days >= FILE_AGE_THRESHOLD_DAYS:
+            os.remove(file_path)
+
 
     file_path = os.path.join(save_path, secure_filename(name))
     upload.save(file_path)
