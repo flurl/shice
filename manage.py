@@ -62,7 +62,7 @@ def do_upload():
             continue
         
         # Get file's last modification time
-        file_mod_time = datetime.fromtimestamp(os.path.getmtime(file_path))
+        file_mod_time = datetime.datetime.fromtimestamp(os.path.getmtime(file_path))
         
         # Delete if file is older than threshold
         if (current_time - file_mod_time).days >= FILE_AGE_THRESHOLD_DAYS:
