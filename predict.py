@@ -80,7 +80,12 @@ def main():
     outputs = model.predict(args.image_filepath)
     save_results(args.image_filepath, outputs['model_output'])
     label = max(outputs['model_output'], key=outputs['model_output'].get)
-    requests.post(settings.POST_PREDICTION_HOOK, data={"label": label}, verify=False)
+    try:
+        requests.post(settings.POST_PREDICTION_HOOK, data={"label": label}, verify=False)
+    except requests.exceptions.ConnectionError as e:
+        print(f"Connection to POST_PREDICTION_HOOK {settings.POST_PREDICTION_HOOK} failed")
+        print(e)
+        
     #print_outputs(outputs)
 
 
