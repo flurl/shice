@@ -197,5 +197,4 @@ fp-info-cache
 tagged/
 training/
 tensorflow/
-arduino/local.ini
 secret.py
