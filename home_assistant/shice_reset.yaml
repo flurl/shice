@@ -1,0 +1,23 @@
+alias: shice reset
+description: ""
+mode: single
+triggers:
+  - event_type: timer.finished
+    event_data:
+      entity_id: timer.shice_timer
+    trigger: event
+conditions: []
+actions:
+  - metadata: {}
+    data:
+      value: 0
+    target:
+      entity_id: input_number.shice_letztes_kisterl
+    action: input_number.set_value
+  - metadata: {}
+    data:
+      value: ""
+    target:
+      entity_id: input_text.shice_letzter_tag
+    action: input_text.set_value
+
