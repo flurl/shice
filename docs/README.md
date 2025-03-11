@@ -46,7 +46,7 @@ You have to create a file named `secret.py`  with the following content:
 POST_PREDICTION_HOOK = "https://example.com/hook"
 ```
 
-A POST request will be made to the hook's URL after the recognition has happend. The request has the parameter `label` where the parameters value is the tag returned from TensorFlow with the highest score.
+A POST request will be made to the hook's URL after the recognition has happend. The request has the parameter `label` where the parameters value is the tag with the highest score returned from TensorFlow.
 
 ## Obtaininig an AI model
 You can use Microsoft's Custom Vision https://www.customvision.ai to train a model. Export it as TensorFlow lite and extract the zip file to the folder `tensorflow`.

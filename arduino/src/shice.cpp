@@ -59,9 +59,9 @@ const char* ssid = WIFI_NAME;
 const char* password = WIFI_PW;
 
 // where to upload the taken images to
-String serverName = "10.0.0.253";
-String serverPath = "/upload";
-const int serverPort = 5000;
+String serverName = SERVER_NAME;
+String serverPath = SERVER_PATH;
+const int serverPort = SERVER_PORT;
 
 bool PIRSensorEnabled = true;
 bool lightState = OFF;
